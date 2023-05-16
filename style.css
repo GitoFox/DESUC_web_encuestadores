@@ -1,0 +1,4 @@
+#resultado img {
+    width: 50px; /* Ancho deseado */
+    height: auto; /* Altura automática para mantener la proporción */
+  }
