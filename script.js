@@ -19,16 +19,6 @@ var Fn = {
 	}
 }
 
-
-$("#btnvalida").click(function(){
-	if (Fn.validaRut( $("#txt_rut").val() )){
-		$("#msgerror").html("El rut ingresado es válido :D");
-	} else {
-		$("#msgerror").html("El Rut no es válido :'( ");
-	}
-});
-
-
 function buscarEmpleado() {
   const rut = document.getElementById('rut').value.trim();
 
