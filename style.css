@@ -30,7 +30,7 @@ input[type="text"] {
 }
 
 button {
-  padding: 8px 15px;
+  padding: 10px 20px;
   font-size: 16px;
   background-color: #4CAF50;
   color: white;
@@ -38,6 +38,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
+  margin: 5px;
 }
 
 #resultado {
@@ -46,14 +47,12 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 40px;
   font-size: 16px;
 }
 
 #resultado img {
   max-width: 40%;
   max-height: 40%;
-  margin: 20px 0;
 }
 
 .project {
@@ -69,4 +68,17 @@ button {
 .project.expired {
   font-weight: normal;
   color: red;
+}
+
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #3e8e41;
+}
+
+button:focus {
+  outline: none;
 }
