@@ -116,3 +116,12 @@ function formatDate(date) {
 function isProjectActive(currentDate, endDate) {
   return currentDate <= endDate;
 }
+
+
+function limpiarBusqueda() {
+  // Limpiar el campo de entrada
+  document.getElementById('rut').value = '';
+
+  // Borrar el contenido del resultado
+  document.getElementById('resultado').innerHTML = '';
+}
