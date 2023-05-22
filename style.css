@@ -82,3 +82,83 @@ button:active {
 button:focus {
   outline: none;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+p {
+  margin: 0;
+}
+
+.empleado-encontrado {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.imagen-empleado {
+  width: 150px;
+  height: 380px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  margin-right: 20px;
+
+}
+
+.info-empleado {
+  flex-grow: 1;
+}
+
+h2, h3 {
+  margin: 0;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .nombre-completo {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nombre-completo {
+    font-size: 14px;
+  }
+}
+

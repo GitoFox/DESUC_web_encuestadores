@@ -20,6 +20,12 @@ var Fn = {
   }
 }
 
+function escapeHTML(text) {
+  var element = document.createElement('div');
+  element.innerText = text;
+  return element.innerHTML;
+}
+
 function buscarEmpleado() {
   const rut = document.getElementById('rut').value.trim();
 
@@ -49,33 +55,52 @@ function buscarEmpleado() {
         const imagenEmpleado = empleadoEncontrado[6]; // Supongamos que la columna de imagen es la posición 6
 
         resultadoDiv.innerHTML = `
-          <img src="${imagenEmpleado}" alt="Imagen del empleado">
-          <p>Empleado encontrado: ${nombreEmpleado} ${empleadoEncontrado[2]}</p>
-        `;
+        <div class="empleado-encontrado">
+            <img src="${imagenEmpleado}" alt="Imagen del empleado" class="imagen-empleado">
+          <div class="info-empleado">
+            <h3>Empleado encontrado:</h3>
+            <h2>${nombreEmpleado}  ${empleadoEncontrado[2]}</h2>
+          </div>
+        </div>
+      `;
+
+      
 
         const proyectosEmpleado = empleados.filter(empleado => empleado[0] === rut);
         const currentDate = new Date();
 
         const proyectosActivos = proyectosEmpleado.filter(proyecto => {
-          const fechaInicio = new Date(proyecto[4]);
           const fechaTermino = new Date(proyecto[5]);
           return currentDate <= fechaTermino;
         });
 
         if (proyectosActivos.length > 0) {
           resultadoDiv.innerHTML += `
-            <p>Proyectos activos:</p>
-            ${proyectosActivos.map(proyecto => `
-              <p class="project active">
-                Nombre Proyecto: ${proyecto[3]}
-              </p>
-              <p>Fecha Inicio Proyecto: ${new Date(proyecto[4]).toLocaleDateString()}</p>
-              <p>Fecha Termino Proyecto: ${new Date(proyecto[5]).toLocaleDateString()}</p>
-            `).join('')}
+            <h2>Proyectos activos</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre Proyecto</th>
+                  <th>Fecha Inicio Proyecto</th>
+                  <th>Fecha Termino Proyecto</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${proyectosActivos.map(proyecto => `
+                  <tr>
+                    <td>${proyecto[3]}</td>
+                    <td>${new Date(proyecto[4]).toLocaleDateString()}</td>
+                    <td>${new Date(proyecto[5]).toLocaleDateString()}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+            <hr>
           `;
         } else {
           resultadoDiv.innerHTML += `
             <p>No se encontraron proyectos activos.</p>
+            <hr>
           `;
         }
 
@@ -86,14 +111,29 @@ function buscarEmpleado() {
 
         if (proyectosExpirados.length > 0) {
           resultadoDiv.innerHTML += `
-            <p>Proyectos expirados:</p>
-            <select>
-              ${proyectosExpirados.map(proyecto => `<option>${proyecto[3]}</option>`).join('')}
-            </select>
+            <h2>Proyectos en los que trabajo:</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>  Nombre Proyecto  </th>
+                  <th>  Fecha Inicio Proyecto  </th>
+                  <th>Fecha Termino Proyecto  </th>
+                </tr>
+              </thead>
+              <tbody>
+                ${proyectosExpirados.map(proyecto => `
+                  <tr>
+                    <td>${proyecto[3]}</td>
+                    <td>${new Date(proyecto[4]).toLocaleDateString()}</td>
+                    <td>${new Date(proyecto[5]).toLocaleDateString()}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
           `;
         } else {
           resultadoDiv.innerHTML += `
-            <p>No se encontraron proyectos expirados.</p>
+            <p>No se encontraron proyectos anteriormente.</p>
           `;
         }
       } else {

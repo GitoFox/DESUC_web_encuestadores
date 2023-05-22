@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /ruta/al/encuestadores.csv
