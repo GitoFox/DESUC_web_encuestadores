@@ -55,14 +55,14 @@ function buscarEmpleado() {
         const imagenEmpleado = empleadoEncontrado[6]; // Supongamos que la columna de imagen es la posición 6
 
         resultadoDiv.innerHTML = `
-        <div class="empleado-encontrado">
+          <div class="empleado-encontrado">
             <img src="${imagenEmpleado}" alt="Imagen del empleado" class="imagen-empleado">
-          <div class="info-empleado">
-            <h3>Empleado encontrado:</h3>
-            <h2>${nombreEmpleado}  ${empleadoEncontrado[2]}</h2>
+            <div class="info-empleado">
+              <h3>Empleado encontrado:</h3>
+              <h2>${nombreEmpleado} ${empleadoEncontrado[2]}</h2>
+            </div>
           </div>
-        </div>
-      `;
+        `;
 
       
 
