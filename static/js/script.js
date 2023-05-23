@@ -45,7 +45,7 @@ function buscarEmpleado() {
   }
 
   // Realizar la lectura del archivo CSV
-  fetch('../static/csv/encuestadores.csv')
+  fetch('static/csv/encuestadores.csv')
     .then(response => response.text())
     .then(data => {
       // Parsear el contenido CSV
