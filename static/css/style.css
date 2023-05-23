@@ -1,5 +1,4 @@
 body {
-
   background-color: #f8f9fa;
 }
 
@@ -41,26 +40,6 @@ label {
   font-size: 18px;
   display: flex;
   align-items: center;
-
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 20px;
-}
-
-label {
-  margin-bottom: 10px;
-  font-size: 18px;
-
 }
 
 input[type="text"] {
@@ -165,13 +144,8 @@ p {
 }
 
 .imagen-empleado {
-
   width: 200px;
   height: 300px;
-
-  width: 150px;
-  height: 380px;
-
   border: 2px solid #000;
   border-radius: 4px;
   margin-right: 20px;
@@ -210,4 +184,3 @@ h3 {
     font-size: 14px;
   }
 }
-
