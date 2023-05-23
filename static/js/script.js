@@ -27,8 +27,15 @@ function escapeHTML(text) {
 }
 
 function buscarEmpleado() {
-  const rut = document.getElementById('rut').value.trim();
 
+  const rutInput = document.getElementById('rut');
+  let rut = rutInput.value.trim();
+
+  // Ajustar automáticamente el formato del Rut si es necesario
+  rut = rut.replace(/[^\dkK]+/g, ''); // Eliminar caracteres no válidos
+  rut = rut.slice(0, -1) + '-' + rut.slice(-1); // Agregar guión antes del dígito verificador
+
+  rutInput.value = rut; // Actualizar el valor del campo de entrada
   if (!Fn.validaRut(rut)) {
     // Rut inválido, mostrar mensaje de error
     const resultadoDiv = document.getElementById('resultado');
@@ -38,7 +45,7 @@ function buscarEmpleado() {
   }
 
   // Realizar la lectura del archivo CSV
-  fetch('encuestadores.csv')
+  fetch('../static/csv/encuestadores.csv')
     .then(response => response.text())
     .then(data => {
       // Parsear el contenido CSV
@@ -52,7 +59,7 @@ function buscarEmpleado() {
       const resultadoDiv = document.getElementById('resultado');
       if (empleadoEncontrado) {
         const nombreEmpleado = empleadoEncontrado[1];
-        const imagenEmpleado = empleadoEncontrado[6]; // Supongamos que la columna de imagen es la posición 6
+        const imagenEmpleado = empleadoEncontrado[7]; // Supongamos que la columna de imagen es la posición 6
 
         resultadoDiv.innerHTML = `
           <div class="empleado-encontrado">
@@ -136,8 +143,13 @@ function buscarEmpleado() {
             <p>No se encontraron proyectos anteriormente.</p>
           `;
         }
-      } else {
-        resultadoDiv.textContent = 'No se encontró al empleado.';
+      }  else {
+        resultadoDiv.innerHTML = `
+          <div class="error-message" alert alert-danger>
+            <p>No se encontró al empleado.</p>
+            <p>Por favor, verifique el RUT ingresado.</p>
+          </div>
+        `;
       }
     })
     .catch(error => {
