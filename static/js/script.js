@@ -95,9 +95,9 @@ function buscarEmpleado() {
               <tbody>
                 ${proyectosActivos.map(proyecto => `
                   <tr>
-                    <td>${proyecto[3]}</td>
-                    <td>${new Date(proyecto[4]).toLocaleDateString()}</td>
-                    <td>${new Date(proyecto[5]).toLocaleDateString()}</td>
+                    <td class="text-center">${proyecto[3]}</td>
+                    <td class="text-center">${new Date(proyecto[4]).toLocaleDateString()}</td>
+                    <td class="text-center">${new Date(proyecto[5]).toLocaleDateString()}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -130,9 +130,9 @@ function buscarEmpleado() {
               <tbody>
                 ${proyectosExpirados.map(proyecto => `
                   <tr>
-                    <td>${proyecto[3]}</td>
-                    <td>${new Date(proyecto[4]).toLocaleDateString()}</td>
-                    <td>${new Date(proyecto[5]).toLocaleDateString()}</td>
+                    <td class="text-center">${proyecto[3]}</td>
+                    <td class="text-center">${new Date(proyecto[4]).toLocaleDateString()}</td>
+                    <td class="text-center">${new Date(proyecto[5]).toLocaleDateString()}</td>
                   </tr>
                 `).join('')}
               </tbody>
