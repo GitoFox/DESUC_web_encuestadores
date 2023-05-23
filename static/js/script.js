@@ -106,7 +106,7 @@ function buscarEmpleado() {
           `;
         } else {
           resultadoDiv.innerHTML += `
-            <p>No se encontraron proyectos activos.</p>
+            <h5>No se encontraron proyectos activos.</h5>
             <hr>
           `;
         }
@@ -140,7 +140,7 @@ function buscarEmpleado() {
           `;
         } else {
           resultadoDiv.innerHTML += `
-            <p>No se encontraron proyectos anteriormente.</p>
+            <h5>No se encontraron proyectos anteriormente.</h5>
           `;
         }
       }  else {
