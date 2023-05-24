@@ -44,6 +44,7 @@ function buscarEmpleado() {
     return; // Salir de la función si el Rut es inválido
   }
 
+  setTimeout(function() {
   // Realizar la lectura del archivo CSV
   fetch('static/csv/encuestadores.csv')
     .then(response => response.text())
@@ -155,6 +156,8 @@ function buscarEmpleado() {
     .catch(error => {
       console.error(error);
     });
+  }, 500);
+    
 }
 function formatDate(date) {
   const day = date.getDate().toString().padStart(2, '0');
