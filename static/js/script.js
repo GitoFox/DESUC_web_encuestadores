@@ -47,131 +47,128 @@ function buscarEmpleado() {
   setTimeout(function() {
   // Realizar la lectura del archivo CSV
   fetch('static/csv/encuestadores.csv')
-    .then(response => response.text())
-    .then(data => {
-      // Parsear el contenido CSV
-      const filas = data.split('\n');
-      const empleados = filas.map(fila => fila.split(','));
+  .then(response => response.text())
+  .then(data => {
+    // Parsear el contenido CSV
+    const filas = data.split('\n');
+    const empleados = filas.map(fila => fila.split(','));
 
-      // Buscar al empleado por su RUT
-      const empleadoEncontrado = empleados.find(empleado => empleado[0] === rut);
+    // Buscar al empleado por su RUT
+    const empleadoEncontrado = empleados.find(empleado => empleado[0] === rut);
 
-      // Mostrar el resultado
-      const resultadoDiv = document.getElementById('resultado');
-      if (empleadoEncontrado) {
-        const nombreEmpleado = empleadoEncontrado[1];
-        const imagenEmpleado = empleadoEncontrado[7]; // Supongamos que la columna de imagen es la posición 6
+    // Mostrar el resultado
+    const resultadoDiv = document.getElementById('resultado');
+    resultadoDiv.innerHTML = '';
+    if (empleadoEncontrado) {
+      const nombreEmpleado = empleadoEncontrado[1];
+      const apellidosEmpleado = empleadoEncontrado[2];
+      let imagenEmpleado = empleadoEncontrado[7]; // Supongamos que la columna de imagen es la posición 7
 
-        resultadoDiv.innerHTML = `
-          <div class="empleado-encontrado">
-            <img src="${imagenEmpleado}" alt="Imagen del empleado" class="imagen-empleado">
-            <div class="info-empleado">
-              <h3>Empleado encontrado:</h3>
-              <h2>${nombreEmpleado} ${empleadoEncontrado[2]}</h2>
-            </div>
+      // Verificar si no hay imagen disponible
+      if (imagenEmpleado === 'NA' || imagenEmpleado === '') {
+        // Asignar la ruta de la imagen por defecto
+        imagenEmpleado = 'static/img/Confuso.png';
+      }
+
+      resultadoDiv.innerHTML = `
+        <div class="empleado-encontrado">
+          <img src="${imagenEmpleado}" alt="Imagen del empleado" class="imagen-empleado">
+          <div class="info-empleado">
+            <h3>Encuestador encontrado:</h3>
+            <h2>${nombreEmpleado} ${apellidosEmpleado}</h2>
           </div>
+        </div>
+      `;
+
+      const proyectosEmpleado = empleados.filter(empleado => empleado[0] === rut);
+      const currentDate = new Date();
+
+      const proyectosActivos = proyectosEmpleado.filter(proyecto => {
+        const fechaTermino = new Date(proyecto[5]);
+        return currentDate <= fechaTermino;
+      });
+
+      if (proyectosActivos.length > 0) {
+        resultadoDiv.innerHTML += `
+          <h2>Proyectos activos</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre Proyecto</th>
+                <th>Fecha Inicio Proyecto</th>
+                <th>Fecha Termino Proyecto</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${proyectosActivos.map(proyecto => `
+                <tr>
+                  <td class="text-center">${proyecto[3]}</td>
+                  <td class="text-center">${new Date(proyecto[4]).toLocaleDateString()}</td>
+                  <td class="text-center">${new Date(proyecto[5]).toLocaleDateString()}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <hr>
         `;
-
-      
-
-        const proyectosEmpleado = empleados.filter(empleado => empleado[0] === rut);
-        const currentDate = new Date();
-
-        const proyectosActivos = proyectosEmpleado.filter(proyecto => {
-          const fechaTermino = new Date(proyecto[5]);
-          return currentDate <= fechaTermino;
-        });
-
-        if (proyectosActivos.length > 0) {
-          resultadoDiv.innerHTML += `
-            <h2>Proyectos activos</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre Proyecto</th>
-                  <th>Fecha Inicio Proyecto</th>
-                  <th>Fecha Termino Proyecto</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${proyectosActivos.map(proyecto => `
-                  <tr>
-                    <td class="text-center">${proyecto[3]}</td>
-                    <td class="text-center">${new Date(proyecto[4]).toLocaleDateString()}</td>
-                    <td class="text-center">${new Date(proyecto[5]).toLocaleDateString()}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-            <hr>
-          `;
-        } else {
-          resultadoDiv.innerHTML += `
-            <h5>No se encontraron proyectos activos.</h5>
-            <hr>
-          `;
-        }
-
-        const proyectosExpirados = proyectosEmpleado.filter(proyecto => {
-          const fechaTermino = new Date(proyecto[5]);
-          return currentDate > fechaTermino;
-        });
-
-        if (proyectosExpirados.length > 0) {
-          resultadoDiv.innerHTML += `
-            <h2>Proyectos en los que trabajo:</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>  Nombre Proyecto  </th>
-                  <th>  Fecha Inicio Proyecto  </th>
-                  <th>Fecha Termino Proyecto  </th>
-                </tr>
-              </thead>
-              <tbody>
-                ${proyectosExpirados.map(proyecto => `
-                  <tr>
-                    <td class="text-center">${proyecto[3]}</td>
-                    <td class="text-center">${new Date(proyecto[4]).toLocaleDateString()}</td>
-                    <td class="text-center">${new Date(proyecto[5]).toLocaleDateString()}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          `;
-        } else {
-          resultadoDiv.innerHTML += `
-            <h5>No se encontraron proyectos anteriormente.</h5>
-          `;
-        }
-      }  else {
-        resultadoDiv.innerHTML = `
-          <div class="error-message" alert alert-danger>
-            <p>No se encontró al empleado.</p>
-            <p>Por favor, verifique el RUT ingresado.</p>
-          </div>
+      } else {
+        resultadoDiv.innerHTML += `
+          <h5>No se encontraron proyectos activos.</h5>
+          <hr>
         `;
       }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }, 500);
-    
+
+      const proyectosExpirados = proyectosEmpleado.filter(proyecto => {
+        const fechaTermino = new Date(proyecto[5]);
+        return currentDate > fechaTermino;
+      });
+
+      if (proyectosExpirados.length > 0) {
+        resultadoDiv.innerHTML += `
+          <h2>Proyectos en los que trabajó:</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre Proyecto</th>
+                <th>Fecha Inicio Proyecto</th>
+                <th>Fecha Termino Proyecto</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${proyectosExpirados.map(proyecto => `
+                <tr>
+                  <td class="text-center">${proyecto[3]}</td>
+                  <td class="text-center">${new Date(proyecto[4]).toLocaleDateString()}</td>
+                  <td class="text-center">${new Date(proyecto[5]).toLocaleDateString()}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      } else {
+        resultadoDiv.innerHTML += `
+          <h5>No se encontraron proyectos anteriores.</h5>
+        `;
+      }
+
+      // Mostrar botón para volver atrás
+      resultadoDiv.innerHTML += `
+        <button class="btn btn-primary" onclick="limpiarBusqueda()">Volver atrás</button>
+      `;
+    } else {
+      resultadoDiv.innerHTML = `
+        <div class="error-message" alert alert-danger>
+          <p>No se encontró al encuestador.</p>
+          <p>Por favor, verifique el RUT ingresado.</p>
+        </div>
+      `;
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });}, 500);
+
 }
-function formatDate(date) {
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Meses en JavaScript son base 0
-  const year = date.getFullYear().toString();
-
-  return `${day}/${month}/${year}`;
-}
-
-
-function isProjectActive(currentDate, endDate) {
-  return currentDate <= endDate;
-}
-
 
 function limpiarBusqueda() {
   // Limpiar el campo de entrada
