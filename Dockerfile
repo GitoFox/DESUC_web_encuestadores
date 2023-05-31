@@ -1,29 +1,16 @@
-# Etapa de construcción
-FROM node:14 AS builder
 
-WORKDIR /app
+# Establece la imagen base
+FROM nginx:latest
 
-# Copiar los archivos de la aplicación
-COPY package.json package-lock.json ./
-RUN npm install
 
-COPY . .
+# Copia los archivos HTML, CSS y JS al directorio de trabajo del contenedor
+COPY ./index.html /usr/share/nginx/html
+COPY ./static/css /usr/share/nginx/html/css
+COPY ./static/js /usr/share/nginx/html/js
 
-# Construir la aplicación
-RUN npm run build
 
-# Etapa de producción
-FROM nginx:alpine
-
-# Copiar la configuración de Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copiar los archivos estáticos generados en la etapa de construcción
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copiar el archivo index.html
-COPY index.html /usr/share/nginx/html
-
+# Expone el puerto 80 del contenedor
 EXPOSE 80
 
+# Comando que se ejecuta cuando se inicia el contenedor
 CMD ["nginx", "-g", "daemon off;"]
