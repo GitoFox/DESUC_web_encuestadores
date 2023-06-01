@@ -46,7 +46,7 @@ function buscarEmpleado() {
   
   setTimeout(function() {
     // Realizar la solicitud al API para buscar al empleado por su RUT
-    fetch(`http://3.83.2.236:3000/encuestadores/${rut}`)
+    fetch(`http://44.204.6.137:3000/encuestadores/${rut}`)
     .then(response => response.json())
     .then(data => {
       // Mostrar el resultado
